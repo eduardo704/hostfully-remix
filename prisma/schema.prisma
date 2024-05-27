@@ -8,21 +8,23 @@ generator client {
 }
 
 model User {
-  id    String @id @default(cuid())
+  id    Int    @id @default(autoincrement())
   email String @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  password Password?
-  notes    Note[]
+  password            Password?
+  notes               Note[]
+  accommodationsOwned Accommodation[]
+  bookings Booking[]
 }
 
 model Password {
   hash String
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String @unique
+  userId Int @unique
 }
 
 model Note {
@@ -34,5 +36,84 @@ model Note {
   updatedAt DateTime @updatedAt
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
+  userId Int
 }
+
+model Accommodation {
+  id    Int     @id @default(autoincrement())
+  level String
+  price Decimal
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  owner  User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId Int
+
+  location Location?
+  reviews Review?
+  images AccImage[]
+  bookings Booking[]
+}
+
+model Location {
+  accommodation  Accommodation   @relation(fields: [accommodationId], references: [id])
+  accommodationId Int @unique
+  
+  Country String
+  Name    String
+  Lat     Decimal
+  Long    Decimal
+}
+
+model AccImage{
+  accommodation  Accommodation   @relation(fields: [accommodationId], references: [id])
+  accommodationId Int @unique
+
+  src String
+}
+
+model Review{
+  accommodation  Accommodation   @relation(fields: [accommodationId], references: [id])
+  accommodationId Int @unique
+
+  raiting Decimal
+  count Int
+}
+
+model Booking{
+  accommodation  Accommodation   @relation(fields: [accommodationId], references: [id])
+  accommodationId Int @unique
+
+  user  User   @relation(fields: [userId], references: [id])
+  userId Int @unique
+
+  from DateTime
+  until DateTime
+
+   @@id([userId, accommodationId])
+}
+
+// model CategoriesOnPosts {
+//   post       Post     @relation(fields: [postId], references: [id])
+//   postId     Int // relation scalar field (used in the `@relation` attribute above)
+//   category   Category @relation(fields: [categoryId], references: [id])
+//   categoryId Int // relation scalar field (used in the `@relation` attribute above)
+//   assignedAt DateTime @default(now())
+//   assignedBy String
+//   @@id([postId, categoryId])
+// }
+
+
+//  const mockedObj={
+//   imageSrc: "https://images.unsplash.com/photo-1585567512124-dbfaa0e7eee5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w1NTg2NTF8MHwxfHNlYXJjaHwxfHxzdXJmJTIwaG91c2V8ZW58MHwyfHx8MTcwNjIwOTYxNnww&ixlib=rb-4.0.3&q=85",
+//   location: {
+//     country: 'USA',
+//     name: 'Hawaii',
+//     coordinates: [21.6624,-158.0499]
+//   },
+//   level: 'Intermediate',
+//   price: 200,
+//   reviews: {ratiting: 4.7, count: 120},
+
+// }

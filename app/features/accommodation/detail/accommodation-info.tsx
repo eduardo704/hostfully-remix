@@ -2,6 +2,7 @@ import { MdSurfing } from "react-icons/md";
 
 import { CheckIcon } from "~/components/common/icons";
 import { Accommodation } from "~/models/accommodation.server";
+import { Card, CardContent, CardHeader, CardTitle } from "~/ui/card";
 
 interface InfoProps {
   accommodation: Accommodation;
@@ -17,9 +18,7 @@ export function AccomodationInfo({ accommodation }: InfoProps) {
         {accommodation.location.name}, {accommodation.location.country}
       </div>
       <div className="flex items-center">
-        <div>
-          Level: 
-        </div>
+        <div>Level:</div>
         <div className="flex gap-2">
           <MdSurfing className="fill-indigo-600" />
           <MdSurfing className="fill-indigo-600" />
@@ -29,31 +28,36 @@ export function AccomodationInfo({ accommodation }: InfoProps) {
         </div>
         <span className="bold text-gray-500">- Intermediate</span>
       </div>
-      <div className="border rounded p-6 my-2">
-        <div className="pb-4">What is included?:</div>
-        <div className="grid grid-cols-3">
-          <div className="flex items-center">
-            <CheckIcon />
-            Accomodation
+      <Card>
+        <CardHeader>
+          <CardTitle>What is included?</CardTitle>
+        </CardHeader>
+        <CardContent className="w-full">
+          <div className="grid grid-cols-3 w-full">
+            <div className="flex items-center">
+              <CheckIcon />
+              Accomodation
+            </div>
+            <div className="flex items-center">
+              <CheckIcon />
+              Fast Wifi
+            </div>
+            <div className="flex items-center">
+              <CheckIcon />
+              Coworking
+            </div>
+            <div className="flex items-center">
+              <CheckIcon />
+              Transportation
+            </div>
+            <div className="flex items-center">
+              <CheckIcon />
+              Private Bathroom
+            </div>
           </div>
-          <div className="flex items-center">
-            <CheckIcon />
-            Fast Wifi
-          </div>
-          <div className="flex items-center">
-            <CheckIcon />
-            Coworking
-          </div>
-          <div className="flex items-center">
-            <CheckIcon />
-            Transportation
-          </div>
-          <div className="flex items-center">
-            <CheckIcon />
-            Private Bathroom
-          </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
+
       <div className="aspect-video">
         {/* <Map center={mocked.location.coordinates} /> */}
       </div>

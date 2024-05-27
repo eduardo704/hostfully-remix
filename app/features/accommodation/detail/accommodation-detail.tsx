@@ -6,7 +6,8 @@ import mockedObj from "~/mocks/mockedAccommodation";
 
 import { AccomodationInfo } from "./accommodation-info";
 import { AccomodationImageHeader } from "./accomodation-image-header";
-import { Button } from "@/components/ui/button";
+import { Button } from "~/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "~/ui/card";
 
 export default function AccomodationDetail() {
   const mocked = mockedObj;
@@ -46,30 +47,34 @@ export default function AccomodationDetail() {
     <div className="container px-6 mb-10">
       <AccomodationImageHeader imageSrc={mocked.imageSrc} />
       <div className="flex gap-4 pt-6">
-        <div className="w-2/3 flex flex-col gap-2">
+        <div className="flex flex-col grow gap-2">
           <AccomodationInfo accommodation={mocked} />
         </div>
 
-        <div className="w-1/3 ">
-          <div className="border rounded p-6 flex flex-col sticky top-20">
-            <h4 className="py-4">Choose Dates:</h4>
-            <div>
-              <Calendar
-                onChange={(value) => setDateRange(value.selection)}
-                value={dateRange}
-              />
-              {priceSection}
+        <div className="">
+          <Card className="sticky">
+            <CardHeader>
+              <CardTitle>Choose Dates:</CardTitle>
+            </CardHeader>
+            <CardContent className="w-full">
+              <div>
+                <Calendar
+                  onChange={(value) => setDateRange(value.selection)}
+                  value={dateRange}
+                />
+                {priceSection}
 
-              <div className="pt-4 border-t">
-                <Button
-                  disabled={totalPrice <= 0}
-              
-                >
-                  Book
-                </Button>
+                <div className="pt-4 border-t">
+                  <Button disabled={totalPrice <= 0} className="w-full">
+                    Book
+                  </Button>
+                </div>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
+          {/* <div className="border rounded p-6 flex flex-col sticky top-20">
+            <h4 className="py-4"></h4>
+          </div> */}
         </div>
       </div>
     </div>

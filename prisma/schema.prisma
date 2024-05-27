@@ -1,119 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 model User {
-  id    Int    @id @default(autoincrement())
-  email String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  password            Password?
-  notes               Note[]
+  id                  Int             @id @default(autoincrement())
+  email               String          @unique
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
   accommodationsOwned Accommodation[]
-  bookings Booking[]
+  bookings            Booking?
+  notes               Note[]
+  password            Password?
 }
 
 model Password {
-  hash String
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId Int @unique
+  hash   String
+  userId Int    @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Note {
-  id    String @id @default(cuid())
-  title String
-  body  String
-
+  id        String   @id @default(cuid())
+  title     String
+  body      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId Int
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Accommodation {
-  id    Int     @id @default(autoincrement())
-  level String
-  price Decimal
-
+  id        Int      @id @default(autoincrement())
+  level     String
+  price     Decimal
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  owner  User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  owner  User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 
+  images   AccImage?
+  bookings Booking?
   location Location?
-  reviews Review?
-  images AccImage[]
-  bookings Booking[]
+  reviews  Review?
 }
 
 model Location {
-  accommodation  Accommodation   @relation(fields: [accommodationId], references: [id])
-  accommodationId Int @unique
-  
-  Country String
-  Name    String
-  Lat     Decimal
-  Long    Decimal
+  accommodationId Int           @unique
+  Country         String
+  Name            String
+  Lat             Decimal
+  Long            Decimal
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id])
 }
 
-model AccImage{
-  accommodation  Accommodation   @relation(fields: [accommodationId], references: [id])
-  accommodationId Int @unique
-
-  src String
+model AccImage {
+  accommodationId Int           @unique
+  src             String
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id])
 }
 
-model Review{
-  accommodation  Accommodation   @relation(fields: [accommodationId], references: [id])
-  accommodationId Int @unique
-
-  raiting Decimal
-  count Int
+model Review {
+  accommodationId Int           @unique
+  raiting         Decimal
+  count           Int
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id])
 }
 
-model Booking{
-  accommodation  Accommodation   @relation(fields: [accommodationId], references: [id])
-  accommodationId Int @unique
+model Booking {
+  accommodationId Int           @unique
+  userId          Int           @unique
+  from            DateTime
+  until           DateTime
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id])
+  user            User          @relation(fields: [userId], references: [id])
 
-  user  User   @relation(fields: [userId], references: [id])
-  userId Int @unique
-
-  from DateTime
-  until DateTime
-
-   @@id([userId, accommodationId])
+  @@id([userId, accommodationId])
 }
-
-// model CategoriesOnPosts {
-//   post       Post     @relation(fields: [postId], references: [id])
-//   postId     Int // relation scalar field (used in the `@relation` attribute above)
-//   category   Category @relation(fields: [categoryId], references: [id])
-//   categoryId Int // relation scalar field (used in the `@relation` attribute above)
-//   assignedAt DateTime @default(now())
-//   assignedBy String
-//   @@id([postId, categoryId])
-// }
-
-
-//  const mockedObj={
-//   imageSrc: "https://images.unsplash.com/photo-1585567512124-dbfaa0e7eee5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w1NTg2NTF8MHwxfHNlYXJjaHwxfHxzdXJmJTIwaG91c2V8ZW58MHwyfHx8MTcwNjIwOTYxNnww&ixlib=rb-4.0.3&q=85",
-//   location: {
-//     country: 'USA',
-//     name: 'Hawaii',
-//     coordinates: [21.6624,-158.0499]
-//   },
-//   level: 'Intermediate',
-//   price: 200,
-//   reviews: {ratiting: 4.7, count: 120},
-
-// }

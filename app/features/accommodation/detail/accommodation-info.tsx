@@ -12,7 +12,7 @@ export function AccomodationInfo({ accommodation }: InfoProps) {
   return (
     <div>
       <div className="text-4xl font-bold text-indigo-600">
-        Superstar hostel beach side
+        {accommodation.name}
       </div>
       <div className="text-2xl font-bold">
         {accommodation.location.name}, {accommodation.location.country}

@@ -1,8 +1,10 @@
+import { Link } from "@remix-run/react";
 import logoImg from "../../../images/logo.svg";
 
 export default function Logo() {
   // const router = useRouter();
   return (
+    <Link to=''>
     <img
       // onClick={() => router.push("/")}
       className="hidden md:block cursor-pointer fill-indigo-600 stroke-red-700"
@@ -11,5 +13,6 @@ export default function Logo() {
       width="100"
       alt="Logo"
     />
+    </Link>
   );
 }

@@ -52,10 +52,10 @@ model Accommodation {
 
 model Location {
   accommodationId Int           @unique
-  Country         String
-  Name            String
-  Lat             Decimal
-  Long            Decimal
+  country         String
+  name            String
+  lat             Decimal
+  long            Decimal
   accommodation   Accommodation @relation(fields: [accommodationId], references: [id])
 }
 

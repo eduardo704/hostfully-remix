@@ -41,10 +41,10 @@ CREATE TABLE "Accommodation" (
 -- CreateTable
 CREATE TABLE "Location" (
     "accommodationId" INTEGER NOT NULL,
-    "Country" TEXT NOT NULL,
-    "Name" TEXT NOT NULL,
-    "Lat" DECIMAL(65,30) NOT NULL,
-    "Long" DECIMAL(65,30) NOT NULL
+    "country" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "lat" DECIMAL(65,30) NOT NULL,
+    "long" DECIMAL(65,30) NOT NULL
 );
 
 -- CreateTable

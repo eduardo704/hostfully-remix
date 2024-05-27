@@ -1,16 +1,28 @@
+import { ActionFunction } from "@remix-run/node";
 import { DateTime } from "luxon";
 import { useState } from "react";
 
 import Calendar from "~/components/common/forms/calendar";
-import mockedObj from "~/mocks/mockedAccommodation";
-
-import { AccomodationInfo } from "./accommodation-info";
-import { AccomodationImageHeader } from "./accomodation-image-header";
 import { Button } from "~/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/ui/card";
 
-export default function AccomodationDetail() {
-  const mocked = mockedObj;
+import { AccommodationCardData } from "../models/accommodation-card.model";
+
+import { AccomodationInfo } from "./accommodation-info";
+import { AccomodationImageHeader } from "./accomodation-image-header";
+
+interface AccomodationDetailProps {
+  accommodation: AccommodationCardData;
+}
+
+// export const action: ActionFunction = async ({ request }) => {
+//   const formData = await request.formData;
+//   console.log(formData);
+// };
+
+export default function AccomodationDetail({
+  accommodation,
+}: AccomodationDetailProps) {
   const [dateRange, setDateRange] = useState({
     startDate: new Date(),
     endDate: new Date(),
@@ -20,7 +32,7 @@ export default function AccomodationDetail() {
   const end = DateTime.fromJSDate(dateRange.endDate);
 
   const totalDays = end.diff(start, "days").toObject().days || 0;
-  const totalPrice = totalDays * mocked.price || 0;
+  const totalPrice = totalDays * parseFloat(accommodation.price) || 0;
 
   let priceSection = <></>;
   if (totalPrice) {
@@ -33,7 +45,7 @@ export default function AccomodationDetail() {
 
         <div className="text-gray-600 flex justify-between">
           <span>Price per night:</span>
-          <span>{mocked.price}, $/night</span>
+          <span>{accommodation.price}, $/night</span>
         </div>
         <div className="bold text-4xl flex justify-between my-3">
           <span>Total price:</span>
@@ -45,10 +57,10 @@ export default function AccomodationDetail() {
 
   return (
     <div className="container px-6 mb-10">
-      <AccomodationImageHeader imageSrc={mocked.imageSrc} />
+      <AccomodationImageHeader imageSrc={accommodation.images.src} />
       <div className="flex gap-4 pt-6">
         <div className="flex flex-col grow gap-2">
-          <AccomodationInfo accommodation={mocked} />
+          <AccomodationInfo accommodation={accommodation} />
         </div>
 
         <div className="">
@@ -57,19 +69,25 @@ export default function AccomodationDetail() {
               <CardTitle>Choose Dates:</CardTitle>
             </CardHeader>
             <CardContent className="w-full">
-              <div>
-                <Calendar
-                  onChange={(value) => setDateRange(value.selection)}
-                  value={dateRange}
-                />
-                {priceSection}
+              <form method="POST">
+                <div>
+                  <Calendar
+                    onChange={(value) => setDateRange(value.selection)}
+                    value={dateRange}
+                  />
+                  {priceSection}
 
-                <div className="pt-4 border-t">
-                  <Button disabled={totalPrice <= 0} className="w-full">
-                    Book
-                  </Button>
+                  <div className="pt-4 border-t">
+                    <Button
+                      type="submit"
+                      disabled={totalPrice <= 0}
+                      className="w-full"
+                    >
+                      Book
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              </form>
             </CardContent>
           </Card>
           {/* <div className="border rounded p-6 flex flex-col sticky top-20">

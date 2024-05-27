@@ -16,3 +16,4 @@ export interface Accommodation {
 	price: number;
 	reviews: Review;
 }
+

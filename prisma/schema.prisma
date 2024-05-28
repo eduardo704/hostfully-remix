@@ -13,7 +13,7 @@ model User {
   createdAt           DateTime        @default(now())
   updatedAt           DateTime        @updatedAt
   accommodationsOwned Accommodation[]
-  bookings            Booking?
+  bookings            Booking[]
   notes               Note[]
   password            Password?
 }
@@ -45,7 +45,7 @@ model Accommodation {
   userId Int
 
   images   AccImage?
-  bookings Booking?
+  bookings Booking[]
   location Location?
   reviews  Review?
 }
@@ -73,12 +73,11 @@ model Review {
 }
 
 model Booking {
-  accommodationId Int           @unique
-  userId          Int           @unique
+  id        Int      @id @default(autoincrement())
+  accommodationId Int           
+  userId          Int           
   from            DateTime
   until           DateTime
   accommodation   Accommodation @relation(fields: [accommodationId], references: [id])
   user            User          @relation(fields: [userId], references: [id])
-
-  @@id([userId, accommodationId])
 }

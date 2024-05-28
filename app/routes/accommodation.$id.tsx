@@ -6,7 +6,7 @@ import { prisma } from "~/db.server";
 import AccomodationDetail from "~/features/accommodation/detail/accommodation-detail";
 
 import { createNote } from "~/models/note.server";
-import { createBooking } from "~/server/accomodation.server";
+import { createBooking, getBookedDates } from "~/server/accomodation.server";
 import { requireUserId } from "~/session.server";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
@@ -22,8 +22,9 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       accommodationId: id,
     },
   });
+  const bookedDates = await getBookedDates(id);
 
-  return { accommodation, bookings };
+  return { accommodation, bookings, bookedDates };
 };
 export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = await requireUserId(request);
@@ -47,9 +48,16 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export default function AccommodationPage() {
-  const { accommodation , bookings } = useLoaderData<typeof loader>();
+  const { accommodation, bookings, bookedDates } =
+    useLoaderData<typeof loader>();
 
-  console.log(bookings)
+  console.log(bookings);
+  console.log(bookedDates);
 
-  return <AccomodationDetail accommodation={accommodation} />;
+  return (
+    <AccomodationDetail
+      accommodation={accommodation}
+      bookedDates={bookedDates}
+    />
+  );
 }

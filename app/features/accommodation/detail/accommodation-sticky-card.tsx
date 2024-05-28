@@ -8,7 +8,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/ui/card";
 import { AccomodationDetailProps } from "./accommodation-detail";
 import { Form } from "@remix-run/react";
 
-export function StickyCard({ accommodation }: AccomodationDetailProps) {
+export function StickyCard({
+  accommodation,
+  bookedDates,
+}: AccomodationDetailProps) {
   //   const formData = new FormData();
   const [dateRange, setDateRange] = useState({
     startDate: new Date(),
@@ -35,8 +38,8 @@ export function StickyCard({ accommodation }: AccomodationDetailProps) {
     priceSection = (
       <>
         <div className="text-gray-600 flex justify-between">
-          <span> Total nights: </span>
-          <span> {totalDays}</span>
+          <span>Total nights: </span>
+          <span>{totalDays}</span>
         </div>
 
         <div className="text-gray-600 flex justify-between">
@@ -45,7 +48,7 @@ export function StickyCard({ accommodation }: AccomodationDetailProps) {
         </div>
         <div className="bold text-4xl flex justify-between my-3">
           <span>Total price:</span>
-          <span> {totalPrice}</span>
+          <span>{totalPrice}</span>
         </div>
       </>
     );
@@ -58,6 +61,7 @@ export function StickyCard({ accommodation }: AccomodationDetailProps) {
       <CardContent className="w-full">
         <div>
           <Calendar
+            disabledDates={bookedDates}
             onChange={(value) => setDateRange(value.selection)}
             value={dateRange}
           />
@@ -68,30 +72,10 @@ export function StickyCard({ accommodation }: AccomodationDetailProps) {
               <input type="hidden" name="id" value={accommodation.id} />
               <input type="hidden" name="from" value={isoStart} />
               <input type="hidden" name="until" value={isoEnd} />
-              <div className="text-right">
-                <Button
-                  type="submit"
-                  className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
-                >
-                  Save
-                </Button>
-              </div>
+              {/* <div className="text-right"> */}
+                <Button type="submit">Save</Button>
+              {/* </div> */}
             </Form>
-            {/* <form method="POST">
-              <input type="hidden" name="id" value={accommodation.id} />
-              <input type="hidden" name="from" value={isoStart} />
-              <input type="hidden" name="until" value={isoEnd} />
-              <input type="hidden" name="id" value={accommodation.id} />
-              <Button
-                type="submit"
-                disabled={totalPrice <= 0}
-                className="w-full"
-                name="_action"
-                value="createBooking"
-              >
-                Book
-              </Button>
-            </form> */}
           </div>
         </div>
       </CardContent>

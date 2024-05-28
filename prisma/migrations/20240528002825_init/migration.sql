@@ -85,12 +85,6 @@ CREATE UNIQUE INDEX "AccImage_accommodationId_key" ON "AccImage"("accommodationI
 -- CreateIndex
 CREATE UNIQUE INDEX "Review_accommodationId_key" ON "Review"("accommodationId");
 
--- CreateIndex
-CREATE UNIQUE INDEX "Booking_accommodationId_key" ON "Booking"("accommodationId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Booking_userId_key" ON "Booking"("userId");
-
 -- AddForeignKey
 ALTER TABLE "Password" ADD CONSTRAINT "Password_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 

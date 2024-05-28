@@ -59,7 +59,7 @@ export async function getBookedDates(accommodationId: number) {
 function getDatesFromInterval(from: Date, util: Date) {
   const interval = Interval.fromDateTimes(
     DateTime.fromJSDate(from),
-    DateTime.fromJSDate(util),
+    DateTime.fromJSDate(util).plus({day: 1}),
   );
   const mappedDates = interval.splitBy({ day: 1 }).map((d) => d.start);
 

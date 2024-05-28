@@ -1,23 +1,34 @@
+import { Form, useLoaderData, useNavigation } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Calendar from "~/components/common/forms/calendar";
 import { Button } from "~/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/ui/card";
 
 import { AccomodationDetailProps } from "./accommodation-detail";
-import { Form } from "@remix-run/react";
 
 export function StickyCard({
   accommodation,
   bookedDates,
 }: AccomodationDetailProps) {
-  //   const formData = new FormData();
   const [dateRange, setDateRange] = useState({
     startDate: new Date(),
     endDate: new Date(),
     key: "selection",
   });
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    if (navigation.state === "submitting") {
+      setDateRange({
+        startDate: new Date(),
+        endDate: new Date(),
+        key: "selection",
+      });
+    }
+  }, [navigation.state]);
 
   const start = DateTime.fromJSDate(dateRange.startDate);
   const end = DateTime.fromJSDate(dateRange.endDate);
@@ -27,12 +38,7 @@ export function StickyCard({
 
   const isoStart = start.toISODate() || "";
   const isoEnd = end.toISODate() || "";
-  //   formData.append("from", isoStart);
-  //   formData.append("to", isoTo);
-  //   const fetcher = useFetcher();
-  //   fetcher;
 
-  // fetcher.data
   let priceSection = <></>;
   if (totalPrice) {
     priceSection = (
@@ -73,7 +79,7 @@ export function StickyCard({
               <input type="hidden" name="from" value={isoStart} />
               <input type="hidden" name="until" value={isoEnd} />
               {/* <div className="text-right"> */}
-                <Button type="submit">Save</Button>
+              <Button type="submit">Save</Button>
               {/* </div> */}
             </Form>
           </div>

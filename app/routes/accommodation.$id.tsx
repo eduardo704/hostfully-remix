@@ -1,11 +1,9 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { prisma } from "~/db.server";
 import AccomodationDetail from "~/features/accommodation/detail/accommodation-detail";
 
-import { createNote } from "~/models/note.server";
 import { createBooking, getBookedDates } from "~/server/accomodation.server";
 import { requireUserId } from "~/session.server";
 
@@ -44,7 +42,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     DateTime.fromISO(until).toJSDate(),
   );
 
-  return redirect(``);
+  return booking;
 };
 
 export default function AccommodationPage() {

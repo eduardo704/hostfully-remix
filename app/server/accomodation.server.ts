@@ -17,8 +17,17 @@ export async function createBooking(
     data: {
       from,
       until: to,
-      accommodationId,
-      userId,
+      accommodation: {
+        connect: {
+          id: accommodationId,
+        },
+      },
+      
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
     },
   });
   return response;

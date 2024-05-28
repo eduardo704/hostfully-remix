@@ -16,14 +16,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export default function Index() {
-  const {accommodations} = useLoaderData<typeof loader>();
+  const { accommodations } = useLoaderData<typeof loader>();
 
-  console.log(accommodations);
-
-  return (
-  
-    
-      <AccomodationList accommodations={accommodations} />
-
-  );
+  return <AccomodationList accommodations={accommodations} />;
 }

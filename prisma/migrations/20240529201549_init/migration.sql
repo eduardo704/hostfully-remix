@@ -62,12 +62,13 @@ CREATE TABLE "Review" (
 
 -- CreateTable
 CREATE TABLE "Booking" (
+    "id" SERIAL NOT NULL,
     "accommodationId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
     "from" TIMESTAMP(3) NOT NULL,
     "until" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Booking_pkey" PRIMARY KEY ("userId","accommodationId")
+    CONSTRAINT "Booking_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

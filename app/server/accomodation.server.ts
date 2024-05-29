@@ -1,11 +1,7 @@
 import { DateTime, Interval } from "luxon";
+import invariant from "tiny-invariant";
 
 import { prisma } from "~/db.server";
-// import * as runtime from '@prisma/client/runtime/library';
-// import $Types = runtime.Types // general types
-// import $Public = runtime.Types.Public
-// import $Utils = runtime.Types.Utils
-// import $Extensions = runtime.Types.Extensions
 
 export async function createBooking(
   accommodationId: number,
@@ -22,7 +18,7 @@ export async function createBooking(
           id: accommodationId,
         },
       },
-      
+
       user: {
         connect: {
           id: userId,
@@ -35,7 +31,6 @@ export async function createBooking(
 
 export async function getBookedDates(accommodationId: number) {
   const now = new Date();
-  // const formattedValue = DateTime.fromISO(now, {zone: 'utc'});
   const bookings = await prisma.booking.findMany({
     where: {
       until: {
@@ -51,7 +46,9 @@ export async function getBookedDates(accommodationId: number) {
       return getDatesFromInterval(booking.from, booking.until);
     })
     .map((date) => {
-      return date?.toJSDate();
+      invariant(date);
+      const mappedDate = date?.toJSDate();
+      return mappedDate;
     });
   return dates;
 }
@@ -59,7 +56,7 @@ export async function getBookedDates(accommodationId: number) {
 function getDatesFromInterval(from: Date, util: Date) {
   const interval = Interval.fromDateTimes(
     DateTime.fromJSDate(from),
-    DateTime.fromJSDate(util).plus({day: 1}),
+    DateTime.fromJSDate(util).plus({ day: 1 }),
   );
   const mappedDates = interval.splitBy({ day: 1 }).map((d) => d.start);
 

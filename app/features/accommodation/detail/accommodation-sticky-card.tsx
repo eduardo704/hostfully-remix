@@ -3,15 +3,13 @@ import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 
 import Calendar from "~/components/common/forms/calendar";
+import { type loader as accLoader } from "~/routes/accommodation.$id";
 import { Button } from "~/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/ui/card";
 
-import { AccomodationDetailProps } from "./accommodation-detail";
+export function StickyCard() {
+  const {bookedDates, accommodation} = useLoaderData<typeof accLoader>();
 
-export function StickyCard({
-  accommodation,
-  bookedDates,
-}: AccomodationDetailProps) {
   const [dateRange, setDateRange] = useState({
     startDate: new Date(),
     endDate: new Date(),

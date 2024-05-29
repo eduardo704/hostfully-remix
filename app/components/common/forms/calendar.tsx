@@ -15,7 +15,7 @@ const Calendar: React.FC<DatePickerProps> = ({
   value,
   onChange,
   disabledDates,
-}) => {
+}: DatePickerProps) => {
   return (
     <DateRange
       rangeColors={["#262626"]}

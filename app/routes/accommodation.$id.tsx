@@ -1,26 +1,28 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
+import invariant from "tiny-invariant";
+
 import { prisma } from "~/db.server";
 import AccomodationDetail from "~/features/accommodation/detail/accommodation-detail";
-
 import { createBooking, getBookedDates } from "~/server/accomodation.server";
 import { requireUserId } from "~/session.server";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const id = parseInt(params.id);
+  invariant(params.id, "Id must be present and be a number")
+  const accId = parseInt(params.id);
   const accommodation = await prisma.accommodation.findFirst({
     include: { images: true, location: true, reviews: true },
     where: {
-      id: id,
+      id: accId,
     },
   });
   const bookings = await prisma.booking.findFirst({
     where: {
-      accommodationId: id,
+      accommodationId: accId,
     },
   });
-  const bookedDates = await getBookedDates(id);
+  const bookedDates = await getBookedDates(accId);
 
   return { accommodation, bookings, bookedDates };
 };
@@ -46,11 +48,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export default function AccommodationPage() {
-  const { accommodation, bookings, bookedDates } =
+  const { accommodation, bookedDates } =
     useLoaderData<typeof loader>();
-
-  console.log(bookings);
-  console.log(bookedDates);
 
   return (
     <AccomodationDetail

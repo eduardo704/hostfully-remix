@@ -13,6 +13,8 @@ import {
 import { getUser } from "~/session.server";
 import stylesheet from "~/tailwind.css";
 import Navbar from "./components/common/navbar/Navbar";
+import Container from "./components/common/layout/container";
+import { Toaster } from "./ui/toaster";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -36,15 +38,16 @@ export default function App() {
         <Navbar />
         <main>
           <section className="pt-24">
-            <div className="container">
+            <Container>
               <Outlet />
-            </div>
+            </Container>
           </section>
         </main>
 
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <Toaster />
       </body>
     </html>
   );

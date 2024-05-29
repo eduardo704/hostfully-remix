@@ -1,21 +1,31 @@
-import { faker } from "@faker-js/faker";
-
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { Form, useLoaderData, useNavigation } from "@remix-run/react";
-import { FaChevronRight } from "react-icons/fa";
+import { Form, Link, useLoaderData, useNavigation } from "@remix-run/react";
+import { useEffect } from "react";
 
 import { prisma } from "~/db.server";
+import { NewBookingCard } from "~/features/booking/new.booking-card";
 import { requireUserId } from "~/session.server";
 import { Button } from "~/ui/button";
-import { Card, CardContent } from "~/ui/card";
 import { Table, TableBody, TableCell, TableRow } from "~/ui/table";
-
-import { useEffect } from "react";
 import { useToast } from "~/ui/use-toast";
-import surferImg from "../images/surfer.png";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await requireUserId(request);
+  // request.url
+  const booking_id = new URL(request.url).searchParams.get("booking_id");
+  let booking;
+  if (booking_id && parseInt(booking_id)) {
+    booking = await prisma.booking.findFirst({
+      where: {
+        id: parseInt(booking_id),
+      },
+      include: {
+        accommodation: {
+          include: { images: true, location: true, reviews: true },
+        },
+      },
+    });
+  }
 
   const bookings = await prisma.booking.findMany({
     where: {
@@ -30,31 +40,33 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       from: "asc",
     },
   });
-  return { bookings };
+  return { bookings, booking };
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  // const userId = await requireUserId(request);
-  console.log(request);
+  if (request.method === "DELETE") {
+    // const userId = await requireUserId(request);
+    console.log(request);
 
-  const formData = await request.formData();
-  // console.log(formData);
-  const id = formData.get("id") as string;
+    const formData = await request.formData();
+    // console.log(formData);
+    const id = formData.get("id") as string;
 
-  const bookingId = parseInt(id);
-  // const body = formData.get("body");
-  console.log(bookingId);
-  await prisma.booking.delete({
-    where: {
-      id: bookingId,
-    },
-  });
+    const bookingId = parseInt(id);
+    // const body = formData.get("body");
+    console.log(bookingId);
+    await prisma.booking.delete({
+      where: {
+        id: bookingId,
+      },
+    });
 
-  return null;
+    return null;
+  }
 };
 
 export default function MyBookingsPage() {
-  const { bookings } = useLoaderData<typeof loader>();
+  const { bookings, booking } = useLoaderData<typeof loader>();
 
   const navigation = useNavigation();
   const { toast } = useToast();
@@ -68,34 +80,15 @@ export default function MyBookingsPage() {
     }
   }, [navigation.state, toast]);
 
+  let bookinCard = <></>;
+  if (booking) {
+    bookinCard = <NewBookingCard booking={booking}></NewBookingCard>;
+  }
+
   return (
     <main className="mx-auto xl:px-20 md-px-10 sm-px-2 px-4">
       <section className="flex items-center flex-col">
-        <Card className="w-1/2 bg-amber-100">
-          <CardContent>
-            <div>
-              <img className="w-full aspect-video" src={surferImg} alt="" />
-              <h2 className="text-3xl py-4 text-indigo-600 ">
-                Thanks for your booking!
-              </h2>
-              <div className="border-t-2 py-4">
-                <p>
-                  Your trip to {faker.word.words({ count: 2 })} is coming up
-                </p>
-              </div>
-              <div className="border-t-2  py-4">
-                <h4 className="font-bold text-lg">Address</h4>
-                <p>{faker.location.streetAddress({ useFullAddress: true })} </p>
-              </div>
-            </div>
-          </CardContent>
-          <div className="cursor-pointer flex items-start rounded-md py-4 transition-all hover:bg-accent hover:text-accent-foreground">
-            <div className="px-6 w-full flex justify-between">
-              <p className="text-sm font-medium leading-none">Contact host</p>
-              <FaChevronRight />
-            </div>
-          </div>
-        </Card>
+        {bookinCard}
         <div></div>
       </section>
       <section>
@@ -128,6 +121,9 @@ export default function MyBookingsPage() {
                       Cancel
                     </Button>
                   </Form>
+                  <Link to={`../booking/update/${booking.id}`}>
+                    <Button type="button" variant="secondary">Update</Button>
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}

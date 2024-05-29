@@ -28,6 +28,22 @@ export async function createBooking(
   });
   return response;
 }
+export async function updateDatesForBooking(
+  bookingId: number,
+  from: Date,
+  to: Date,
+) {
+  const response = await prisma.booking.update({
+    data: {
+      from,
+      until: to,
+    },
+    where: {
+      id: bookingId
+    }
+  });
+  return response;
+}
 
 export async function getBookedDates(accommodationId: number) {
   const now = new Date();
@@ -53,7 +69,7 @@ export async function getBookedDates(accommodationId: number) {
   return dates;
 }
 
-function getDatesFromInterval(from: Date, util: Date) {
+export function getDatesFromInterval(from: Date, util: Date) {
   const interval = Interval.fromDateTimes(
     DateTime.fromJSDate(from),
     DateTime.fromJSDate(util).plus({ day: 1 }),

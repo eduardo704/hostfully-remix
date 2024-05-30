@@ -87,22 +87,24 @@ export default function MyBookingsPage() {
                   <span className="font-light"> until: </span>
                   {new Date(booking.until).toDateString()}
                 </TableCell>
-                <TableCell className="flex gap-2 items-end flex-col sm:flex-row">
-                  <Link
-                    className={buttonVariants({
-                      variant: "secondary",
-                      size: "sm",
-                    })}
-                    to={`../booking/update/${booking.id}`}
-                  >
-                    Update
-                  </Link>
-                  <Form method="DELETE">
-                    <input type="hidden" value={booking.id} name="id" />
-                    <Button type="submit" size="sm" variant="destructive">
-                      Cancel
-                    </Button>
-                  </Form>
+                <TableCell>
+                  <div className="flex gap-2 items-end flex-col sm:flex-row">
+                    <Link
+                      className={buttonVariants({
+                        variant: "secondary",
+                        size: "sm",
+                      })}
+                      to={`../booking/update/${booking.id}`}
+                    >
+                      Update
+                    </Link>
+                    <Form method="DELETE">
+                      <input type="hidden" value={booking.id} name="id" />
+                      <Button type="submit" size="sm" variant="destructive">
+                        Cancel
+                      </Button>
+                    </Form>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

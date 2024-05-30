@@ -4,11 +4,9 @@ import { expect, vi } from "vitest";
 import prisma from "~/__mocks__/prisma";
 
 import {
-  getAccomodationDetail,
-  updateDatesForBooking,
+  getAccomodationDetail
 } from "./accomodation.server";
 
-import { Prisma } from "@prisma/client";
 
 test.skip("should getAccomodationDetail ", async () => {
   const acc = {

@@ -1,6 +1,5 @@
-// import { prismaMock } from "prisma.mock.singleton"
-import { expect, vi } from "vitest";
 import { DateTime } from "luxon";
+import { expect, vi } from "vitest";
 
 import prisma from "~/__mocks__/prisma";
 
@@ -8,7 +7,6 @@ import {
   getAccomodationDetail,
   updateDatesForBooking,
 } from "./accomodation.server";
-// import { getPrismaClient } from "~/db.server";
 
 describe("Accommodation server functions ", () => {
   beforeEach(() => {

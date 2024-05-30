@@ -1,5 +1,6 @@
-import { Prisma, Accommodation as PrismaAcc } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import invariant from "tiny-invariant";
+
 import { Accommodation } from "~/models/accommodation.model";
 
 export function prismaAccToFrontAcc(accFigma: FullAccommodation): Accommodation {

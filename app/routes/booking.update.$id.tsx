@@ -9,7 +9,6 @@ import { useState } from "react";
 import invariant from "tiny-invariant";
 
 import Calendar from "~/components/common/forms/calendar";
-import { prisma } from "~/db.server";
 import {
   getBookedDates,
   getDatesFromInterval,

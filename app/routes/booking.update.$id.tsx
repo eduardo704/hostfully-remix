@@ -31,20 +31,20 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const bookedDates = await getBookedDates(booking?.accommodationId);
   const currentBookingDates = getDatesFromInterval(booking.from, booking.until);
 
-  const avaliableDates = bookedDates.filter((date) => {
+  const datesToBlock = bookedDates.filter((date) => {
     const dateTime = DateTime.fromJSDate(date) as DateTime;
-    return currentBookingDates.includes(dateTime);
+    const index = currentBookingDates.findIndex((element) =>
+      element?.equals(dateTime),
+    );
+
+    return index < 0;
   });
-  return { booking, avaliableDates };
+  return { booking, datesToBlock };
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   if (request.method === "PUT") {
-    // const userId = await requireUserId(request);
-    console.log(request);
-
     const formData = await request.formData();
-    // console.log(formData);
     const id = formData.get("id") as string;
     const from = formData.get("from") as string;
     const until = formData.get("until") as string;
@@ -60,9 +60,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export default function MyBookingsPage() {
-  const { avaliableDates, booking } = useLoaderData<typeof loader>();
-  console.log(avaliableDates);
-  console.log(booking);
+  const { datesToBlock, booking } = useLoaderData<typeof loader>();
   const [dateRange, setDateRange] = useState({
     startDate: new Date(),
     endDate: new Date(),
@@ -72,8 +70,8 @@ export default function MyBookingsPage() {
   const start = DateTime.fromJSDate(dateRange.startDate);
   const end = DateTime.fromJSDate(dateRange.endDate);
 
-  const isoStart = start.toISODate() || "";
-  const isoEnd = end.toISODate() || "";
+  const isoStart = start.toISODate() ?? "";
+  const isoEnd = end.toISODate() ?? "";
 
   return (
     <Card className="sticky">
@@ -83,7 +81,7 @@ export default function MyBookingsPage() {
       <CardContent className="w-full">
         <div>
           <Calendar
-            disabledDates={avaliableDates}
+            disabledDates={datesToBlock}
             onChange={(value) => setDateRange(value.selection)}
             value={dateRange}
           />
@@ -93,9 +91,7 @@ export default function MyBookingsPage() {
               <input type="hidden" name="id" value={booking.id} />
               <input type="hidden" name="from" value={isoStart} />
               <input type="hidden" name="until" value={isoEnd} />
-              {/* <div className="text-right"> */}
               <Button type="submit">Save</Button>
-              {/* </div> */}
             </Form>
           </div>
         </div>

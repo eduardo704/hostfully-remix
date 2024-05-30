@@ -45,16 +45,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   if (request.method === "DELETE") {
-    // const userId = await requireUserId(request);
-    console.log(request);
-
     const formData = await request.formData();
-    // console.log(formData);
     const id = formData.get("id") as string;
 
     const bookingId = parseInt(id);
-    // const body = formData.get("body");
-    console.log(bookingId);
     await prisma.booking.delete({
       where: {
         id: bookingId,
@@ -114,16 +108,18 @@ export default function MyBookingsPage() {
                   <span className="font-light"> until: </span>
                   {new Date(booking.until).toDateString()}
                 </TableCell>
-                <TableCell>
-                  <Form method="DELETE">
-                    <input type="hidden" value={booking.id} name="id" />
-                    <Button type="submit" variant="destructive">
-                      Cancel
-                    </Button>
-                  </Form>
-                  <Link to={`../booking/update/${booking.id}`}>
-                    <Button type="button" variant="secondary">Update</Button>
-                  </Link>
+                <TableCell className="flex gap-2 items-end">
+                    <Link to={`../booking/update/${booking.id}`}>
+                      <Button type="button" variant="secondary">
+                        Update
+                      </Button>
+                    </Link>
+                    <Form method="DELETE">
+                      <input type="hidden" size="sm" value={booking.id} name="id" />
+                      <Button type="submit" size="sm" variant="destructive">
+                        Cancel
+                      </Button>
+                    </Form>
                 </TableCell>
               </TableRow>
             ))}

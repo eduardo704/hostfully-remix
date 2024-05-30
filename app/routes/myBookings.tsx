@@ -4,42 +4,21 @@ import { useEffect } from "react";
 
 import { prisma } from "~/db.server";
 import { NewBookingCard } from "~/features/booking/new.booking-card";
+import { findBookignsByUser, findBookingId } from "~/server/booking.server";
 import { requireUserId } from "~/session.server";
-import { Button } from "~/ui/button";
+import { Button, buttonVariants } from "~/ui/button";
 import { Table, TableBody, TableCell, TableRow } from "~/ui/table";
 import { useToast } from "~/ui/use-toast";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await requireUserId(request);
-  // request.url
   const booking_id = new URL(request.url).searchParams.get("booking_id");
   let booking;
   if (booking_id && parseInt(booking_id)) {
-    booking = await prisma.booking.findFirst({
-      where: {
-        id: parseInt(booking_id),
-      },
-      include: {
-        accommodation: {
-          include: { images: true, location: true, reviews: true },
-        },
-      },
-    });
+    booking = await findBookingId(parseInt(booking_id));
   }
 
-  const bookings = await prisma.booking.findMany({
-    where: {
-      userId: userId,
-    },
-    include: {
-      accommodation: {
-        include: { images: true, location: true, reviews: true },
-      },
-    },
-    orderBy: {
-      from: "asc",
-    },
-  });
+  const bookings = await findBookignsByUser(userId);
   return { bookings, booking };
 };
 
@@ -109,17 +88,21 @@ export default function MyBookingsPage() {
                   {new Date(booking.until).toDateString()}
                 </TableCell>
                 <TableCell className="flex gap-2 items-end flex-col sm:flex-row">
-                    <Link to={`../booking/update/${booking.id}`}>
-                      <Button type="button" variant="secondary">
-                        Update
-                      </Button>
-                    </Link>
-                    <Form method="DELETE">
-                      <input type="hidden" size="sm" value={booking.id} name="id" />
-                      <Button type="submit" size="sm" variant="destructive">
-                        Cancel
-                      </Button>
-                    </Form>
+                  <Link
+                    className={buttonVariants({
+                      variant: "secondary",
+                      size: "sm",
+                    })}
+                    to={`../booking/update/${booking.id}`}
+                  >
+                    Update
+                  </Link>
+                  <Form method="DELETE">
+                    <input type="hidden" value={booking.id} name="id" />
+                    <Button type="submit" size="sm" variant="destructive">
+                      Cancel
+                    </Button>
+                  </Form>
                 </TableCell>
               </TableRow>
             ))}

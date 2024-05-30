@@ -7,14 +7,15 @@ import { Form, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useState } from "react";
 import invariant from "tiny-invariant";
-import Calendar from "~/components/common/forms/calendar";
 
+import Calendar from "~/components/common/forms/calendar";
 import { prisma } from "~/db.server";
 import {
   getBookedDates,
   getDatesFromInterval,
   updateDatesForBooking,
 } from "~/server/accomodation.server";
+import { findBookingId } from "~/server/booking.server";
 import { Button } from "~/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/ui/card";
 
@@ -22,11 +23,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.id, "Id must be present and be a number");
   const bookingId = parseInt(params.id);
 
-  const booking = await prisma.booking.findFirst({
-    where: {
-      id: bookingId,
-    },
-  });
+  const booking = await findBookingId(bookingId)
   invariant(booking?.accommodationId, "Id must be present and be a number");
   const bookedDates = await getBookedDates(booking?.accommodationId);
   const currentBookingDates = getDatesFromInterval(booking.from, booking.until);

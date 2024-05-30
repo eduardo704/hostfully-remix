@@ -12,8 +12,9 @@ import {
 
 import { getUser } from "~/session.server";
 import stylesheet from "~/tailwind.css";
-import Navbar from "./components/common/navbar/Navbar";
+
 import Container from "./components/common/layout/container";
+import Navbar from "./components/common/navbar/Navbar";
 import { Toaster } from "./ui/toaster";
 
 export const links: LinksFunction = () => [

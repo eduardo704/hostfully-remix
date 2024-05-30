@@ -3,31 +3,7 @@ import invariant from "tiny-invariant";
 
 import { prisma } from "~/db.server";
 
-export async function createBooking(
-  accommodationId: number,
-  userId: number,
-  from: Date,
-  to: Date,
-) {
-  const response = await prisma.booking.create({
-    data: {
-      from,
-      until: to,
-      accommodation: {
-        connect: {
-          id: accommodationId,
-        },
-      },
 
-      user: {
-        connect: {
-          id: userId,
-        },
-      },
-    },
-  });
-  return response;
-}
 export async function updateDatesForBooking(
   bookingId: number,
   from: Date,
@@ -93,4 +69,18 @@ export async function getAccomodationDetail(accommodationId: number) {
     ...acc,
     bookedDates: booked,
   };
+}
+
+export async function getAccommodations() {
+ return await prisma.accommodation.findMany({
+    include: { images: true, location: true, reviews: true },
+  });
+}
+export async function findAccommodationById(accId:number) {
+  return await prisma.accommodation.findFirst({
+    include: { images: true, location: true, reviews: true },
+    where: {
+      id: accId,
+    },
+  });
 }

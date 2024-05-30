@@ -25,6 +25,7 @@
   "prettier": {},
   "eslintIgnore": [
     "/node_modules",
+    "/app/ui",
     "/build",
     "/public/build",
     "/postgres-data"

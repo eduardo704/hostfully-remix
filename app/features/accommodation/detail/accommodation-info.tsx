@@ -1,7 +1,7 @@
 import { MdSurfing } from "react-icons/md";
 
 import { CheckIcon } from "~/components/common/icons";
-import { Accommodation } from "~/models/accommodation.server";
+import { Accommodation } from "~/models/accommodation.model";
 import { Card, CardContent, CardHeader, CardTitle } from "~/ui/card";
 
 interface InfoProps {

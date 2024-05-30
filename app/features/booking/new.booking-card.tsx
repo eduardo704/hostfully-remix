@@ -1,8 +1,10 @@
+import { faker } from "@faker-js/faker";
 import { FaChevronRight } from "react-icons/fa";
+
 import { Booking } from "~/models/booking.model";
 import { Card, CardContent } from "~/ui/card";
+
 import surferImg from "../../images/surfer.png";
-import { faker } from "@faker-js/faker";
 
 export interface bookinCardProps {
   booking: Booking;

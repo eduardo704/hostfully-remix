@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 import { UnsplashResponse } from "~/models/unsplash";
@@ -30,7 +30,7 @@ async function seed() {
   await generateAccomodations(user);
 }
 
-async function generateAccomodations(user: any) {
+async function generateAccomodations(user: User) {
   const pictures = await getSurfPictures();
   // console.log(pictures)
 

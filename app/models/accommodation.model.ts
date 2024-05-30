@@ -15,5 +15,6 @@ export interface Accommodation {
 	level: string;
 	price: number;
 	reviews: Review;
+	name:string;
 }
 

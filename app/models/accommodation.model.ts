@@ -5,7 +5,7 @@ export interface Location {
 }
 
 export interface Review {
-	ratiting: number;
+	raiting: number;
 	count: number;
 }
 

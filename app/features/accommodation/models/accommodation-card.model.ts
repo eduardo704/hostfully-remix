@@ -27,6 +27,6 @@ export interface Location {
 
 export interface Reviews {
   accommodationId: number
-  raiting: string
+  raiting: number
   count: number
 }

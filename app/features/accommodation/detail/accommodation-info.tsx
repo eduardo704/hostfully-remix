@@ -1,6 +1,7 @@
 import { MdSurfing } from "react-icons/md";
 
 import { CheckIcon } from "~/components/common/icons";
+import { Raiting } from "~/components/common/layout/raiting";
 import { Accommodation } from "~/models/accommodation.model";
 import { Card, CardContent, CardHeader, CardTitle } from "~/ui/card";
 
@@ -27,6 +28,12 @@ export function AccomodationInfo({ accommodation }: InfoProps) {
           <MdSurfing />
         </div>
         <span className="bold text-gray-500">- Intermediate</span>
+      </div>
+      <div className="font-light text-neutral-500 flex items-center">
+        <Raiting raiting={accommodation.reviews.raiting} />
+        <span>
+          {accommodation.reviews.raiting}, {accommodation.reviews.count} Reviews
+        </span>
       </div>
       <Card>
         <CardHeader>
@@ -59,7 +66,7 @@ export function AccomodationInfo({ accommodation }: InfoProps) {
       </Card>
 
       {/* <div className="aspect-video"> */}
-        {/* <Map center={mocked.location.coordinates} /> */}
+      {/* <Map center={mocked.location.coordinates} /> */}
       {/* </div> */}
     </div>
   );

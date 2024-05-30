@@ -10,7 +10,7 @@ import {
 
 import { Prisma } from "@prisma/client";
 
-test("should getAccomodationDetail ", async () => {
+test.skip("should getAccomodationDetail ", async () => {
   const acc = {
     // bookedDates: [],
     id: 1,

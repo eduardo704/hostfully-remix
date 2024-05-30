@@ -9,6 +9,7 @@ export async function updateDatesForBooking(
   from: Date,
   to: Date,
 ) {
+  console.log(prisma)
   const response = await prisma.booking.update({
     data: {
       from,

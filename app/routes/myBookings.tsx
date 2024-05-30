@@ -98,9 +98,9 @@ export default function MyBookingsPage() {
                     >
                       Update
                     </Link>
-                    <Form method="DELETE">
+                    <Form className="w-full" method="DELETE">
                       <input type="hidden" value={booking.id} name="id" />
-                      <Button type="submit" size="sm" variant="destructive">
+                      <Button className="w-full sm:w-auto" type="submit" size="sm" variant="destructive">
                         Cancel
                       </Button>
                     </Form>

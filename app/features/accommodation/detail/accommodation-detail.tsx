@@ -14,7 +14,7 @@ export default function AccomodationDetail({
   return (
     <div>
       <AccomodationImageHeader imageSrc={accommodation.images.src} />
-      <div className="flex gap-4 pt-6">
+      <div className="flex gap-4 pt-6 flex-col sm:flex-row">
         <div className="flex flex-col grow gap-2">
           <AccomodationInfo accommodation={accommodation} />
         </div>

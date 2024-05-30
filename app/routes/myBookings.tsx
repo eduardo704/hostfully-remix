@@ -91,7 +91,7 @@ export default function MyBookingsPage() {
           <TableBody>
             {bookings.map((booking) => (
               <TableRow key={booking.id}>
-                <TableCell>
+                <TableCell className="hidden sm:table-cell">
                   <img
                     className="aspect-square rounded-md object-cover"
                     width="64"
@@ -99,16 +99,16 @@ export default function MyBookingsPage() {
                     alt=""
                   />
                 </TableCell>
-                <TableCell className="font-medium">
+                <TableCell className="font-medium text-sm sm:text-base">
                   {booking.accommodation.location?.name}
                 </TableCell>
-                <TableCell className="font-medium">
+                <TableCell className="font-medium text-xs sm:text-base">
                   <span className="font-light">from: </span>
                   {new Date(booking.from).toDateString()},
                   <span className="font-light"> until: </span>
                   {new Date(booking.until).toDateString()}
                 </TableCell>
-                <TableCell className="flex gap-2 items-end">
+                <TableCell className="flex gap-2 items-end flex-col sm:flex-row">
                     <Link to={`../booking/update/${booking.id}`}>
                       <Button type="button" variant="secondary">
                         Update

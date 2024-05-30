@@ -10,7 +10,7 @@ export interface bookinCardProps {
 
 export function NewBookingCard({ booking }: bookinCardProps) {
   return (
-    <Card className="w-1/2 bg-amber-100">
+    <Card className="w-9/10 sm:w-1/2 bg-amber-100">
       <CardContent>
         <div>
           <img className="w-full aspect-video" src={surferImg} alt="" />

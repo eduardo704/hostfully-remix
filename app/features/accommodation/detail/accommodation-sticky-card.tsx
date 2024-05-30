@@ -62,7 +62,7 @@ export function StickyCard() {
       <CardHeader>
         <CardTitle>Choose Dates:</CardTitle>
       </CardHeader>
-      <CardContent className="w-full">
+      <CardContent className="w-full p-0 sm:p-6 flex justify-center">
         <div>
           <Calendar
             disabledDates={bookedDates}
@@ -77,7 +77,7 @@ export function StickyCard() {
               <input type="hidden" name="from" value={isoStart} />
               <input type="hidden" name="until" value={isoEnd} />
               {/* <div className="text-right"> */}
-              <Button type="submit">Save</Button>
+              <Button className="w-full" type="submit">Save</Button>
               {/* </div> */}
             </Form>
           </div>

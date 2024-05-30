@@ -74,11 +74,11 @@ export default function MyBookingsPage() {
   const isoEnd = end.toISODate() ?? "";
 
   return (
-    <Card className="sticky">
+    <Card className="w-full sm:w-1/2 lg:w-1/3">
       <CardHeader>
         <CardTitle>Choose new Dates:</CardTitle>
       </CardHeader>
-      <CardContent className="w-full">
+      <CardContent  className="w-full p-0 sm:p-6 flex justify-center">
         <div>
           <Calendar
             disabledDates={datesToBlock}
@@ -91,7 +91,7 @@ export default function MyBookingsPage() {
               <input type="hidden" name="id" value={booking.id} />
               <input type="hidden" name="from" value={isoStart} />
               <input type="hidden" name="until" value={isoEnd} />
-              <Button type="submit">Save</Button>
+              <Button className="w-full " type="submit">Save</Button>
             </Form>
           </div>
         </div>

@@ -7,7 +7,7 @@ export default function Logo() {
     <Link to=''>
     <img
       // onClick={() => router.push("/")}
-      className="hidden md:block cursor-pointer fill-indigo-600 stroke-red-700"
+      className="cursor-pointer fill-indigo-600 stroke-red-700"
       src={logoImg}
       height="100"
       width="100"

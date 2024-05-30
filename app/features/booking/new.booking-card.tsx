@@ -5,12 +5,18 @@ import { Booking } from "~/models/booking.model";
 import { Card, CardContent } from "~/ui/card";
 
 import surferImg from "../../images/surfer.png";
+import { DateTime } from "luxon";
 
 export interface bookinCardProps {
   booking: Booking;
 }
 
 export function NewBookingCard({ booking }: bookinCardProps) {
+  const until = DateTime.fromJSDate(new Date(booking.until))
+    .plus({ day: 1 })
+    .toLocaleString();
+  const from = DateTime.fromJSDate(new Date(booking.from)).toLocaleString();
+
   return (
     <Card className="w-9/10 sm:w-1/2 bg-amber-100">
       <CardContent>
@@ -30,16 +36,11 @@ export function NewBookingCard({ booking }: bookinCardProps) {
           </div>
           <div className="border-t-2  py-4">
             <h4 className="font-bold text-lg">Check-In</h4>
-            <p>
-              Check in from: {new Date(booking.from).toDateString()} 8am until
-              22pm{" "}
-            </p>
+            <p>Check in from: {from} from 8am until 22pm </p>
           </div>
           <div className="border-t-2  py-4">
             <h4 className="font-bold text-lg">Check-Out</h4>
-            <p>
-              Check out: {new Date(booking.until).toDateString()} until 1pm{" "}
-            </p>
+            <p>Check out: {until} until 1pm </p>
           </div>
         </div>
       </CardContent>

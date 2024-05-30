@@ -77,8 +77,8 @@ export async function getAccommodations() {
   });
 }
 
-export async function findAccommodationById(accId:number) {
-  return await prisma.accommodation.findFirst({
+export async function findAccommodationById(accId:number){
+ return await prisma.accommodation.findFirst({
     include: { images: true, location: true, reviews: true },
     where: {
       id: accId,

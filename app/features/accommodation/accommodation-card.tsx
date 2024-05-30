@@ -1,12 +1,11 @@
 import { Link } from "@remix-run/react";
 
-import { StarIcon, StarSolidIcon } from "~/components/common/icons";
 
-import { AccommodationCardData } from "./models/accommodation-card.model";
 import { Raiting } from "~/components/common/layout/raiting";
+import { Accommodation } from "~/models/accommodation.model";
 
 interface AccomodationProps {
-  accommodation: AccommodationCardData;
+  accommodation: Accommodation;
 }
 export default function AccomodationCard({ accommodation }: AccomodationProps) {
   return (

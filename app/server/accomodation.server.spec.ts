@@ -4,11 +4,9 @@ import { expect, vi } from "vitest";
 import prisma from "~/__mocks__/prisma";
 
 import {
-  getAccomodationDetail,
-  updateDatesForBooking,
+  getAccomodationDetail
 } from "./accomodation.server";
 
-import { Prisma } from "@prisma/client";
 
 test("should getAccomodationDetail ", async () => {
   const acc = {
@@ -16,7 +14,7 @@ test("should getAccomodationDetail ", async () => {
     id: 1,
     userId: 1,
     level: "Intermediate",
-    price: new Prisma.Decimal(200),
+    price: 200,
     createdAt: new Date(),
     updatedAt: new Date(),
   };

@@ -13,7 +13,7 @@ export function AccomodationInfo({ accommodation }: InfoProps) {
   return (
     <div>
       <div className="text-4xl font-bold text-indigo-600">
-        {accommodation.name}
+        Super cool surf hostel
       </div>
       <div className="text-2xl font-bold">
         {accommodation.location.name}, {accommodation.location.country}

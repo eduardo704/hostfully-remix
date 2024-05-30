@@ -1,20 +1,28 @@
-export interface Location {
-	country: string;
-	name: string;
-	coordinates: number[];
-}
-
-export interface Review {
-	raiting: number;
-	count: number;
-}
 
 export interface Accommodation {
-	imageSrc: string;
-	location: Location;
-	level: string;
-	price: number;
-	reviews: Review;
-	name:string;
+  id: number;
+  level: string;
+  price: number;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  userId: number;
+  images: Images;
+  location: Location;
+  reviews: Reviews;
+}  
+
+export interface Images {
+  src: string;
 }
 
+export interface Location {
+  country: string;
+  name: string;
+  lat: number;
+  long: number;
+}
+
+export interface Reviews {
+  raiting: number;
+  count: number;
+}

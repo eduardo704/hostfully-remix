@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 import { prisma } from "~/db.server";
 import { NewBookingCard } from "~/features/booking/new.booking-card";
+import { Booking } from "~/models/booking.model";
 import { findBookignsByUser, findBookingId } from "~/server/booking.server";
 import { requireUserId } from "~/session.server";
 import { Button, buttonVariants } from "~/ui/button";
@@ -15,7 +16,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const booking_id = new URL(request.url).searchParams.get("booking_id");
   let booking;
   if (booking_id && parseInt(booking_id)) {
-    booking = await findBookingId(parseInt(booking_id));
+    booking = await findBookingId(parseInt(booking_id)) as Booking;
   }
 
   const bookings = await findBookignsByUser(userId);

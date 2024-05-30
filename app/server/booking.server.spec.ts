@@ -16,7 +16,7 @@ test("should getAccomodationDetail ", async () => {
     id: 1,
     userId: 1,
     level: "Intermediate",
-    price: new Prisma.Decimal(200),
+    price: 200,
     createdAt: new Date(),
     updatedAt: new Date(),
   };

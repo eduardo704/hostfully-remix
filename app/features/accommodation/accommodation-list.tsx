@@ -1,8 +1,9 @@
+import { Accommodation } from "~/models/accommodation.model";
+
 import AccomodationCard from "./accommodation-card";
-import { AccommodationCardData } from "./models/accommodation-card.model";
 
 interface AccomodationListProps {
-  accommodations: AccommodationCardData[];
+  accommodations: Accommodation[];
 }
 
 export default function AccomodationList({

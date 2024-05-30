@@ -1,11 +1,14 @@
-import { AccommodationCardData } from "../models/accommodation-card.model";
+
+
+
+import { Accommodation } from "~/models/accommodation.model";
 
 import { AccomodationInfo } from "./accommodation-info";
 import { StickyCard } from "./accommodation-sticky-card";
 import { AccomodationImageHeader } from "./accomodation-image-header";
 
 export interface AccomodationDetailProps {
-  accommodation: AccommodationCardData;
+  accommodation: Accommodation;
 }
 
 export default function AccomodationDetail({

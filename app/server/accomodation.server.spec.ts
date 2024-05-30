@@ -25,33 +25,66 @@ describe("Accommodation server functions ", () => {
         createdAt: new Date(),
         updatedAt: new Date(),
       };
+      const mockedBookings = [
+        {
+          id: 1,
+          accommodationId: 1,
+          userId: 1,
+          from: DateTime.fromISO("2024-06-01").toJSDate(),
+          until: DateTime.fromISO("2024-06-05").toJSDate(),
+        },
+        {
+          id: 1,
+          accommodationId: 1,
+          userId: 1,
+          from: DateTime.fromISO("2024-06-10").toJSDate(),
+          until: DateTime.fromISO("2024-06-15").toJSDate(),
+        },
+      ];
+
+      const expectedBookedDates = [
+        DateTime.fromISO("2024-06-01").toJSDate(),
+        DateTime.fromISO("2024-06-02").toJSDate(),
+        DateTime.fromISO("2024-06-03").toJSDate(),
+        DateTime.fromISO("2024-06-04").toJSDate(),
+        DateTime.fromISO("2024-06-05").toJSDate(),
+        DateTime.fromISO("2024-06-10").toJSDate(),
+        DateTime.fromISO("2024-06-11").toJSDate(),
+        DateTime.fromISO("2024-06-12").toJSDate(),
+        DateTime.fromISO("2024-06-13").toJSDate(),
+        DateTime.fromISO("2024-06-14").toJSDate(),
+        DateTime.fromISO("2024-06-15").toJSDate(),
+      ];
 
       prisma.accommodation.findUnique.mockResolvedValue({ ...acc });
+      prisma.booking.findMany.mockResolvedValue([...mockedBookings]);
 
       const testedAcc = await getAccomodationDetail(1);
 
       expect(testedAcc.level).toEqual("Intermediate");
+      expect(testedAcc.price).toEqual(200);
+      expect(testedAcc.bookedDates).toEqual(expectedBookedDates);
     });
   });
-  // describe("Given a booking id and dates ", () => {
-  //   test("updateDatesForBooking should update booking correctly", async () => {
-  //     console.log(prisma.booking);
-  //     const spy = prisma.booking.update;
+  describe("Given a booking id and dates ", () => {
+    test("updateDatesForBooking should update booking correctly", async () => {
+      console.log(prisma.booking);
+      const spy = prisma.booking.update;
 
-  //     const from = DateTime.now();
-  //     const until = DateTime.now().plus({ day: 5 });
+      const from = DateTime.now().toJSDate();
+      const until = DateTime.now().plus({ day: 5 }).toJSDate();
 
-  //     await updateDatesForBooking(1, from.toJSDate(), until.toJSDate());
+      await updateDatesForBooking(1, from, until);
 
-  //     expect(spy).toBeCalledWith({
-  //       data: {
-  //         from,
-  //         until,
-  //       },
-  //       where: {
-  //         id: 1,
-  //       },
-  //     });
-  //   });
-  // });
+      expect(spy).toBeCalledWith({
+        data: {
+          from,
+          until,
+        },
+        where: {
+          id: 1,
+        },
+      });
+    });
+  });
 });

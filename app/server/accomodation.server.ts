@@ -2,6 +2,7 @@ import { DateTime, Interval } from "luxon";
 import invariant from "tiny-invariant";
 
 import { prisma } from "~/db.server";
+import { findBookingId } from "./booking.server";
 
 
 export async function updateDatesForBooking(
@@ -9,7 +10,6 @@ export async function updateDatesForBooking(
   from: Date,
   to: Date,
 ) {
-  console.log(prisma)
   const response = await prisma.booking.update({
     data: {
       from,
@@ -85,4 +85,20 @@ export async function findAccommodationById(accId:number){
       id: accId,
     },
   });
+}
+
+export async function getBookingAndDatesExcludingCurrentBooking(bookingId: number) {
+  const booking = await findBookingId(bookingId);
+  invariant(booking?.accommodationId, "Id must be present and be a number");
+  const bookedDates = await getBookedDates(booking?.accommodationId);
+  const currentBookingDates = getDatesFromInterval(booking.from, booking.until);
+
+  const datesToBlock = bookedDates.filter((date) => {
+    const dateTime = DateTime.fromJSDate(date) as DateTime;
+    const index = currentBookingDates.findIndex((element) => element?.equals(dateTime)
+    );
+
+    return index < 0;
+  });
+  return { booking, datesToBlock };
 }

@@ -12,11 +12,9 @@ import invariant from "tiny-invariant";
 import Calendar from "~/components/common/forms/calendar";
 import { CalendarState } from "~/features/accommodation/detail/accommodation-sticky-card";
 import {
-  getBookedDates,
-  getDatesFromInterval,
-  updateDatesForBooking,
+  getBookingAndDatesExcludingCurrentBooking,
+  updateDatesForBooking
 } from "~/server/accomodation.server";
-import { findBookingId } from "~/server/booking.server";
 import { Button } from "~/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/ui/card";
 
@@ -24,28 +22,13 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.id, "Id must be present and be a number");
   const bookingId = parseInt(params.id);
 
-  const booking = await findBookingId(bookingId);
-  invariant(booking?.accommodationId, "Id must be present and be a number");
-  const bookedDates = await getBookedDates(booking?.accommodationId);
-  const currentBookingDates = getDatesFromInterval(booking.from, booking.until);
-
-  const datesToBlock = bookedDates.filter((date) => {
-    const dateTime = DateTime.fromJSDate(date) as DateTime;
-    const index = currentBookingDates.findIndex((element) =>
-      element?.equals(dateTime),
-    );
-
-    return index < 0;
-  });
+  const { booking, datesToBlock } = await getBookingAndDatesExcludingCurrentBooking(bookingId);
   return { booking, datesToBlock };
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   if (request.method === "PUT") {
-    const formData = await request.formData();
-    const id = formData.get("id") as string;
-    const from = formData.get("from") as string;
-    const until = formData.get("until") as string;
+    const { id, from, until } = await getDataFromForm(request);
 
     const bookingId = parseInt(id);
     const booking = await updateDatesForBooking(
@@ -56,6 +39,16 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return redirect(`/mybookings?booking_id=${booking.id}`);
   }
 };
+
+
+
+async function getDataFromForm(request: Request) {
+  const formData = await request.formData();
+  const id = formData.get("id") as string;
+  const from = formData.get("from") as string;
+  const until = formData.get("until") as string;
+  return { id, from, until };
+}
 
 export default function MyBookingsPage() {
   let isDisabled = true;

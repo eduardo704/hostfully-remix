@@ -6,7 +6,7 @@ import { Accommodation } from "~/models/accommodation.model";
 import { getAccommodations } from "~/server/accomodation.server";
 import { prismaAccToFrontAcc } from "~/server/mappers/accommodation.mapper";
 
-export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
+export const meta: MetaFunction = () => [{ title: "Hostfully App" }];
 
 export const loader = async () => {
   const accommodations = (await getAccommodations()).map(prismaAccToFrontAcc);

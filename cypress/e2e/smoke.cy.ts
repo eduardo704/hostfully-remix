@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import { randAlphaNumeric, randSentence, randUser, randWord } from '@ngneat/falso';
 
 describe("smoke tests", () => {
   afterEach(() => {
@@ -7,8 +7,8 @@ describe("smoke tests", () => {
 
   it("should allow you to register and login", () => {
     const loginForm = {
-      email: `${faker.internet.userName()}@example.com`,
-      password: faker.internet.password(),
+      email: `${randUser().username}@example.com`,
+      password: ''+randAlphaNumeric({ length:8 }),
     };
     cy.then(() => ({ email: loginForm.email })).as("user");
 
@@ -26,8 +26,8 @@ describe("smoke tests", () => {
 
   it("should allow you to make a note", () => {
     const testNote = {
-      title: faker.lorem.words(1),
-      body: faker.lorem.sentences(1),
+      title: randWord(),
+      body: randSentence(),
     };
     cy.login();
     cy.visitAndCheck("/");

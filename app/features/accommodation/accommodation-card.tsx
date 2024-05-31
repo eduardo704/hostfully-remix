@@ -1,15 +1,15 @@
 import { Link } from "@remix-run/react";
 
-import { StarIcon, StarSolidIcon } from "~/components/common/icons";
 
-import { AccommodationCardData } from "./models/accommodation-card.model";
+import { Raiting } from "~/components/common/layout/raiting";
+import { Accommodation } from "~/models/accommodation.model";
 
 interface AccomodationProps {
-  accommodation: AccommodationCardData;
+  accommodation: Accommodation;
 }
 export default function AccomodationCard({ accommodation }: AccomodationProps) {
   return (
-    <Link 
+    <Link
       to={`/accommodation/${accommodation.id}`}
       className="flex flex-col gap-2 w-full  border-1  cursor-pointer"
     >
@@ -20,7 +20,11 @@ export default function AccomodationCard({ accommodation }: AccomodationProps) {
           rounded-xl
         "
       >
-        <img className="aspect-[3/4]" src={accommodation.images.src} alt="Listing" />
+        <img
+          className="aspect-[3/4]"
+          src={accommodation.images.src}
+          alt="Listing"
+        />
       </div>
       <div className="rounded flex flex-col">
         <span className="font-semibold text-indigo-600 text-lg">
@@ -29,15 +33,11 @@ export default function AccomodationCard({ accommodation }: AccomodationProps) {
         <span className="font-light text-neutral-500">
           {accommodation.level}
         </span>
-        <span className="font-light text-neutral-500 flex ">
-          <StarSolidIcon />
-          <StarSolidIcon />
-          <StarSolidIcon />
-          <StarSolidIcon />
-          <StarIcon />
+        <span className="font-light text-neutral-500 flex items-center">
+          <Raiting raiting={accommodation.reviews.raiting} />
           <span>
-            {accommodation.reviews.ratiting} stars,{" "}
-            {accommodation.reviews.count} Reviews
+            {accommodation.reviews.raiting}, {accommodation.reviews.count}{" "}
+            Reviews
           </span>
         </span>
         <span className="font-semibold">$ {accommodation.price}</span>

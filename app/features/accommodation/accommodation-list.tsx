@@ -1,9 +1,9 @@
+import { Accommodation } from "~/models/accommodation.model";
 
 import AccomodationCard from "./accommodation-card";
-import { AccommodationCardData } from "./models/accommodation-card.model";
 
 interface AccomodationListProps {
-  accommodations: AccommodationCardData[];
+  accommodations: Accommodation[];
 }
 
 export default function AccomodationList({
@@ -12,5 +12,9 @@ export default function AccomodationList({
   const accList = accommodations.map((item) => (
     <AccomodationCard accommodation={item} key={item.id} />
   ));
-  return <div className="grid grid-cols-4 gap-5 p-8">{accList}</div>;
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 p-8">
+      {accList}
+    </div>
+  );
 }

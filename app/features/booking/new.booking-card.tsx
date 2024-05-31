@@ -1,16 +1,25 @@
-import { faker } from "@faker-js/faker";
+import { randFullAddress } from "@ngneat/falso";
+import { DateTime } from "luxon";
 import { FaChevronRight } from "react-icons/fa";
+
 import { Booking } from "~/models/booking.model";
 import { Card, CardContent } from "~/ui/card";
+
 import surferImg from "../../images/surfer.png";
+
 
 export interface bookinCardProps {
   booking: Booking;
 }
 
 export function NewBookingCard({ booking }: bookinCardProps) {
+  const until = DateTime.fromJSDate(new Date(booking.until))
+    .plus({ day: 1 })
+    .toLocaleString();
+  const from = DateTime.fromJSDate(new Date(booking.from)).toLocaleString();
+
   return (
-    <Card className="w-1/2 bg-amber-100">
+    <Card className="w-9/10 sm:w-1/2 bg-amber-100">
       <CardContent>
         <div>
           <img className="w-full aspect-video" src={surferImg} alt="" />
@@ -23,21 +32,16 @@ export function NewBookingCard({ booking }: bookinCardProps) {
             </p>
           </div>
           <div className="border-t-2  py-4">
-            <h4 className="font-bold text-lg">Address</h4>
-            <p>{faker.location.streetAddress({ useFullAddress: true })} </p>
+          <h4 className="font-bold text-lg">Address</h4>
+            <p>{randFullAddress()} </p>
           </div>
           <div className="border-t-2  py-4">
             <h4 className="font-bold text-lg">Check-In</h4>
-            <p>
-              Check in from: {new Date(booking.from).toDateString()} 8am until
-              22pm{" "}
-            </p>
+            <p>Check in from: {from} from 8am until 22pm </p>
           </div>
           <div className="border-t-2  py-4">
             <h4 className="font-bold text-lg">Check-Out</h4>
-            <p>
-              Check out: {new Date(booking.until).toDateString()} until 1pm{" "}
-            </p>
+            <p>Check out: {until} until 1pm </p>
           </div>
         </div>
       </CardContent>

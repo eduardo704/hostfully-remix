@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import { randEmail } from "@ngneat/falso";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -44,7 +44,7 @@ declare global {
 }
 
 function login({
-  email = faker.internet.email({ provider: "example.com" }),
+  email = randEmail({ provider:  "example.com" }),
 }: {
   email?: string;
 } = {}) {

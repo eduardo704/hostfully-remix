@@ -1,7 +1,8 @@
 import { MdSurfing } from "react-icons/md";
 
 import { CheckIcon } from "~/components/common/icons";
-import { Accommodation } from "~/models/accommodation.server";
+import { Raiting } from "~/components/common/layout/raiting";
+import { Accommodation } from "~/models/accommodation.model";
 import { Card, CardContent, CardHeader, CardTitle } from "~/ui/card";
 
 interface InfoProps {
@@ -12,7 +13,7 @@ export function AccomodationInfo({ accommodation }: InfoProps) {
   return (
     <div>
       <div className="text-4xl font-bold text-indigo-600">
-        {accommodation.name}
+        Super cool surf hostel
       </div>
       <div className="text-2xl font-bold">
         {accommodation.location.name}, {accommodation.location.country}
@@ -28,12 +29,18 @@ export function AccomodationInfo({ accommodation }: InfoProps) {
         </div>
         <span className="bold text-gray-500">- Intermediate</span>
       </div>
+      <div className="font-light text-neutral-500 flex items-center">
+        <Raiting raiting={accommodation.reviews.raiting} />
+        <span>
+          {accommodation.reviews.raiting}, {accommodation.reviews.count} Reviews
+        </span>
+      </div>
       <Card>
         <CardHeader>
           <CardTitle>What is included?</CardTitle>
         </CardHeader>
         <CardContent className="w-full">
-          <div className="grid grid-cols-3 w-full">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 w-full">
             <div className="flex items-center">
               <CheckIcon />
               Accomodation
@@ -58,9 +65,9 @@ export function AccomodationInfo({ accommodation }: InfoProps) {
         </CardContent>
       </Card>
 
-      <div className="aspect-video">
-        {/* <Map center={mocked.location.coordinates} /> */}
-      </div>
+      {/* <div className="aspect-video"> */}
+      {/* <Map center={mocked.location.coordinates} /> */}
+      {/* </div> */}
     </div>
   );
 }

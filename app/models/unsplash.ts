@@ -9,6 +9,7 @@ export interface Link {
 	html: string;
 	photos: string;
 	likes: string;
+	download: string;
 }
 
 export interface User {
@@ -32,12 +33,6 @@ export interface Url {
 	thumb: string;
 }
 
-export interface Link {
-	self: string;
-	html: string;
-	download: string;
-}
-
 export interface UnsplashResult {
 	id: string;
 	created_at: string;
@@ -49,7 +44,6 @@ export interface UnsplashResult {
 	liked_by_user: boolean;
 	description: string;
 	user: User;
-	current_user_collections: any[];
 	urls: Url;
 	links: Link;
 }

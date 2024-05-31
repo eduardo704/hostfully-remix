@@ -3,31 +3,9 @@ import invariant from "tiny-invariant";
 
 import { prisma } from "~/db.server";
 
-export async function createBooking(
-  accommodationId: number,
-  userId: number,
-  from: Date,
-  to: Date,
-) {
-  const response = await prisma.booking.create({
-    data: {
-      from,
-      until: to,
-      accommodation: {
-        connect: {
-          id: accommodationId,
-        },
-      },
+import { findBookingId } from "./booking.server";
 
-      user: {
-        connect: {
-          id: userId,
-        },
-      },
-    },
-  });
-  return response;
-}
+
 export async function updateDatesForBooking(
   bookingId: number,
   from: Date,
@@ -93,4 +71,35 @@ export async function getAccomodationDetail(accommodationId: number) {
     ...acc,
     bookedDates: booked,
   };
+}
+
+export async function getAccommodations() {
+ return await prisma.accommodation.findMany({
+    include: { images: true, location: true, reviews: true },
+  });
+}
+
+export async function findAccommodationById(accId:number){
+ return await prisma.accommodation.findFirst({
+    include: { images: true, location: true, reviews: true },
+    where: {
+      id: accId,
+    },
+  });
+}
+
+export async function getBookingAndDatesExcludingCurrentBooking(bookingId: number) {
+  const booking = await findBookingId(bookingId);
+  invariant(booking?.accommodationId, "Id must be present and be a number");
+  const bookedDates = await getBookedDates(booking?.accommodationId);
+  const currentBookingDates = getDatesFromInterval(booking.from, booking.until);
+
+  const datesToBlock = bookedDates.filter((date) => {
+    const dateTime = DateTime.fromJSDate(date) as DateTime;
+    const index = currentBookingDates.findIndex((element) => element?.equals(dateTime)
+    );
+
+    return index < 0;
+  });
+  return { booking, datesToBlock };
 }

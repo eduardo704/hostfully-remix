@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import { randFloat, randNumber } from "@ngneat/falso";
 import { PrismaClient, User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
@@ -25,7 +25,6 @@ async function seed() {
       },
     },
   });
-
 
   await generateAccomodations(user);
 }
@@ -60,17 +59,17 @@ async function generateAccomodations(user: User) {
     // const picture =
     //   "https://images.unsplash.com/photo-1585567512124-dbfaa0e7eee5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w1NTg2NTF8MHwxfHNlYXJjaHwxfHxzdXJmJTIwaG91c2V8ZW58MHwyfHx8MTcwNjIwOTYxNnww&ixlib=rb-4.0.3&q=85";
     const picture =
-      pictures[faker.number.int({ min: 0, max: pictures.length - 1 })] ||
+      pictures[randNumber({ min: 0, max: pictures.length - 1 })] ||
       "https://images.unsplash.com/photo-1585567512124-dbfaa0e7eee5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w1NTg2NTF8MHwxfHNlYXJjaHwxfHxzdXJmJTIwaG91c2V8ZW58MHwyfHx8MTcwNjIwOTYxNnww&ixlib=rb-4.0.3&q=85";
     await prisma.accommodation.create({
       data: {
         level,
-        price: faker.number.int({ min: 100, max: 500 }),
+        price: randNumber({ min: 100, max: 500 }),
         userId: user.id,
         reviews: {
           create: {
-            count: faker.number.int({ min: 100, max: 500 }),
-            raiting: faker.number.float({
+            count: randNumber({ min: 100, max: 500 }),
+            raiting: randFloat({
               min: 3,
               max: 5,
               fractionDigits: 2,
@@ -83,7 +82,7 @@ async function generateAccomodations(user: User) {
           },
         },
         location: {
-          create: { ...locations[faker.number.int({ min: 0, max: 2 })] },
+          create: { ...locations[randNumber({ min: 0, max: 2 })] },
         },
       },
     });
@@ -91,7 +90,7 @@ async function generateAccomodations(user: User) {
 }
 
 function generateLevel() {
-  const num = faker.number.int({ min: 0, max: 2 });
+  const num = randNumber({ min: 0, max: 2 });
   const levelMap = ["Begginer", "Intermediate", "Advanced"];
 
   return levelMap[num];

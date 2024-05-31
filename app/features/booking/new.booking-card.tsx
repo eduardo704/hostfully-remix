@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import { randFullAddress } from "@ngneat/falso";
 import { DateTime } from "luxon";
 import { FaChevronRight } from "react-icons/fa";
 
@@ -6,6 +6,7 @@ import { Booking } from "~/models/booking.model";
 import { Card, CardContent } from "~/ui/card";
 
 import surferImg from "../../images/surfer.png";
+
 
 export interface bookinCardProps {
   booking: Booking;
@@ -31,8 +32,8 @@ export function NewBookingCard({ booking }: bookinCardProps) {
             </p>
           </div>
           <div className="border-t-2  py-4">
-            <p>{faker.location.streetAddress({ useFullAddress: true })} </p>
-            <p>testeeeeeee </p>
+          <h4 className="font-bold text-lg">Address</h4>
+            <p>{randFullAddress()} </p>
           </div>
           <div className="border-t-2  py-4">
             <h4 className="font-bold text-lg">Check-In</h4>

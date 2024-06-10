@@ -81,12 +81,6 @@ export default function MyBookingsPage() {
 
     confirmForm = (
       <div>
-        <Calendar
-          disabledDates={mappedDates}
-          onChange={(value) => calendarListener(value)}
-          value={dateRange}
-        />
-
         <div className="pt-4 border-t">
           <Form method="PUT">
             <input type="hidden" name="id" value={booking.id} />
@@ -100,13 +94,17 @@ export default function MyBookingsPage() {
       </div>
     );
   }
-
   return (
     <Card className="w-full sm:w-1/2 lg:w-1/3">
       <CardHeader>
         <CardTitle>Choose new Dates:</CardTitle>
       </CardHeader>
       <CardContent className="w-full p-0 sm:p-6 flex justify-center">
+      <Calendar
+          disabledDates={mappedDates}
+          onChange={(value) => calendarListener(value)}
+          value={dateRange}
+        />
         {confirmForm}
       </CardContent>
     </Card>

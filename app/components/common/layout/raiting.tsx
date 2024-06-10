@@ -20,7 +20,6 @@ export function Raiting({ raiting }: RaitingProps) {
   const totalStars = intArray.map((num) => <FaStar key={num} />);
   const halfStars = halfArray.map((_num, idx) => <FaStarHalfAlt key={idx} />);
   const emptyTotal = 5 - (intArray.length + halfStars.length);
-  console.log(emptyTotal)
   const emptyStars =  [...Array(emptyTotal).keys()].map((_num, idx) => <FaRegStar key={idx} />);
 
   return (

@@ -2,10 +2,9 @@ import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form, Link, useLoaderData, useNavigation } from "@remix-run/react";
 import { useEffect } from "react";
 
-import { prisma } from "~/db.server";
 import { NewBookingCard } from "~/features/booking/new.booking-card";
 import { Booking } from "~/models/booking.model";
-import { findBookignsByUser, findBookingId } from "~/server/booking.server";
+import { deleteBookingById, findBookignsByUser, findBookingId } from "~/server/booking.server";
 import { requireUserId } from "~/session.server";
 import { Button, buttonVariants } from "~/ui/button";
 import { Table, TableBody, TableCell, TableRow } from "~/ui/table";
@@ -29,11 +28,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const id = formData.get("id") as string;
 
     const bookingId = parseInt(id);
-    await prisma.booking.delete({
-      where: {
-        id: bookingId,
-      },
-    });
+    await deleteBookingById(bookingId)
 
     return null;
   }

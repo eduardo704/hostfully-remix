@@ -12,6 +12,13 @@ export async function findBookingByAccomodationId(accId: number) {
     },
   });
 }
+export async function deleteBookingById(bookingId: number) {
+  return await prisma.booking.delete({
+    where: {
+      id: bookingId,
+    },
+  });
+}
 export async function findBookingId(bookingId: number) {
   return await prisma.booking.findFirst({
     where: {
